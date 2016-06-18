@@ -20,10 +20,16 @@ func _ready():
 	
 func _process(delta):
 	get_targets()
-	#look_at(get_viewport().get_mouse_pos())
+	if targets.size()>0:
+		var ag=(targets[0].get_pos()-get_pos()).angle()
+		get_node("Sprite").set_rot(ag)
 	
 func _draw():
 	draw_circle(Vector2(0,0),get_atk_range(),Color(255,0,0,.2))
+	if targets.size()>0:
+		var t=targets[0]
+		var tp=t.get_pos()-get_pos()
+		draw_line(Vector2(0,0),tp,Color(255,255,255))
 
 func get_atk():
 	return base_atk+ceil(level*.5)
@@ -43,12 +49,11 @@ func get_targets():
 	var ms=get_node("/root/player").monsters
 	for i in range(0,ms.size()):
 		var sp=ms[i].get_pos()
-		#print(get_pos().distance_to(sp),'xx',get_atk_range())
 		if get_pos().distance_to(sp)<get_atk_range():
 			targets.append(ms[i])	
 			
-	var sort=null
-	targets.sort_custom(self,"sort_targets")
+
+	update()
 	
 	
 	

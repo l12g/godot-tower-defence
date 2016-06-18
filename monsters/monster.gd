@@ -27,3 +27,5 @@ func _on_Area2D_area_enter( area ):
 		player.life-=1
 		player.monsters.remove(player.monsters.find(self))
 		queue_free()
+		
+	
